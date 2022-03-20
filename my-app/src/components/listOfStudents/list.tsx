@@ -3,7 +3,7 @@ import "../listOfStudents/list.css"
 
 interface Types {
     state: string,
-    list:[{id:string, name:string,group:string,ball:string }],
+    list:[{idSt:number, name:string,group:string,ball:string }],
     
 }
 
@@ -11,12 +11,12 @@ interface Types {
 export default function ListOfStudents() {
     let [state, setstate] = useState("id")
     let [list, setlist]: any = useState([
-        { id: 1, name: 'Гуляев Антон', group: "ист3", ball: 4 },
-        { id: 3, name: 'Колыван', group: "ист2", ball: 5 },
-        { id: 2, name: 'Максим Родин', group: "ист3", ball: 3 },
-        { id: 4, name: 'Градиленко Артем', group: "аниме", ball: 2 },
+        { idSt: 1, name: 'Гуляев Антон', group: "ист3", ball: 4 },
+        { idSt: 3, name: 'Колыван', group: "ист2", ball: 5 },
+        { idSt: 2, name: 'Максим Родин', group: "ист3", ball: 3 },
+        { idSt: 4, name: 'Градиленко Артем', group: "аниме", ball: 2 },
     ])
-    let [input, setvalue] = useState({ id: '', name: '', group: '', ball: '' })
+    let [input, setvalue] = useState({ idSt: '', name: '', group: '', ball: '' })
     const ID = useRef(null);
     const NAME = useRef(null);
     const GROUP = useRef(null);
@@ -38,13 +38,13 @@ export default function ListOfStudents() {
         GROUP.current.value = ''
         BALL.current.value = ''
         setvalue({
-            id: '', name: '', group: '', ball: ''
+            idSt: '', name: '', group: '', ball: ''
         })
     }
 
 
     function add() {
-        let updatedValue = { 'id': ID.current.value }
+        let updatedValue = { 'idSt': ID.current.value }
         if (NAME.current.value === '' || GROUP.current.value === '' || BALL.current.value === '') {
             alert('Не все данные введены')
             return
@@ -52,29 +52,33 @@ export default function ListOfStudents() {
 
         let arr = []
         list.forEach(item => {
-            arr.push(item.id)
+            arr.push(item.idSt)
         })
 
         if (ID.current.value === '') {
-            updatedValue['id'] = arr[arr.length - 1] + 1
+            updatedValue['idSt'] = Math.max(...arr)+1
         }
-
+        
         if (arr.includes(Number(ID.current.value))) {
             alert(`Редактирование элемента с id:${ID.current.value}`)
 
-            list[list.indexOf(list.find(el => el.id == ID.current.value))] = input
+            list[list.indexOf(list.find(el => el.idSt == ID.current.value))] = input
+            
             setstate(state + 1)
             removeValue()
             return
         }
-        input['id'] = updatedValue['id']
+        console.log(arr)
+
+
+        input['idSt'] = updatedValue['idSt']
         setlist([...list, input])
         removeValue()
     }
 
     const Del = (item) => {
-
-        list.splice(list.indexOf(list.find(el => el.id == item.target.id)), 1)
+        
+        list.splice(list.indexOf(list.find(el => el.idSt == item.target.id)), 1)
         setstate(state + 1)
 
         console.log(list)
@@ -88,12 +92,12 @@ export default function ListOfStudents() {
 
         }
         let sort = list.sort(sortirovka).map(item =>
-            <div id={item.id} className="listItem" >
-                <span>{item.id}</span>
+            <div id={`${item.idSt}`} className="listItem" >
+                <span>{item.idSt}</span>
                 <span>{item.name}</span>
                 <span>{item.group}</span>
                 <span>{item.ball}</span>
-                <div id={item.id} className="del" onClick={(item) => Del(item)} />
+                <div id={`${item.idSt}`} className="del" onClick={(item) => Del(item)} />
             </div>
         )
         return (
@@ -104,7 +108,7 @@ export default function ListOfStudents() {
     return (
         <>
             <div className="miniList">
-                <div className="miniListItem" onClick={() => setstate(state = "id")}>ID</div>
+                <div className="miniListItem" onClick={() => setstate(state = "idSt")}>ID</div>
                 <div className="miniListItem" onClick={() => setstate(state = "name")}>ФИО</div>
                 <div className="miniListItem" onClick={() => setstate(state = "group")}>Группа</div>
                 <div className="miniListItem" onClick={() => setstate(state = "ball")}>Ср.балл</div>
@@ -120,7 +124,7 @@ export default function ListOfStudents() {
             <Sort state={state} list={list}/>
 
             <div className=" sec">
-                <input id="id" type="number" ref={ID} name="id" onChange={(w) => change(w)} placeholder="id" />
+                <input id="idSt" type="number" ref={ID} name="id" onChange={(w) => change(w)} placeholder="id" />
                 <input id="name" type="text" ref={NAME} name="name" onChange={(w) => change(w)} placeholder="name" />
                 <input id="group" type="text" ref={GROUP} name="group" onChange={(w) => change(w)} placeholder="group" />
                 <input id="ball" type="number" ref={BALL} name="ball" onChange={(w) => change(w)} placeholder="ball" />
