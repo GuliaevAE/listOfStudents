@@ -3,8 +3,8 @@ import "../listOfStudents/list.css"
 
 interface Types {
     state: string,
-    list:[{idSt:number, name:string,group:string,ball:string }],
-    
+    list: [{ idSt: number, name: string, group: string, ball: string }],
+
 }
 
 
@@ -56,14 +56,14 @@ export default function ListOfStudents() {
         })
 
         if (ID.current.value === '') {
-            updatedValue['idSt'] = Math.max(...arr)+1
+            updatedValue['idSt'] = Math.max(...arr) + 1
         }
-        
+
         if (arr.includes(Number(ID.current.value))) {
             alert(`Редактирование элемента с id:${ID.current.value}`)
 
             list[list.indexOf(list.find(el => el.idSt == ID.current.value))] = input
-            
+
             setstate(state + 1)
             removeValue()
             return
@@ -77,7 +77,7 @@ export default function ListOfStudents() {
     }
 
     const Del = (item) => {
-        
+
         list.splice(list.indexOf(list.find(el => el.idSt == item.target.id)), 1)
         setstate(state + 1)
 
@@ -92,45 +92,73 @@ export default function ListOfStudents() {
 
         }
         let sort = list.sort(sortirovka).map(item =>
-            <div id={`${item.idSt}`} className="listItem" >
-                <span>{item.idSt}</span>
+            <tr id={`${item.idSt}`}>
+
+                <td>{item.idSt}</td>
+                <td>{item.name}</td>
+                <td>{item.group}</td>
+                <td>{item.ball}</td>
+                <td id={`${item.idSt}`} className="del" onClick={(item) => Del(item)}></td>
+
+                {/* <span>{item.idSt}</span>
                 <span>{item.name}</span>
                 <span>{item.group}</span>
                 <span>{item.ball}</span>
-                <div id={`${item.idSt}`} className="del" onClick={(item) => Del(item)} />
-            </div>
+                <div id={`${item.idSt}`} className="del" onClick={(item) => Del(item)} /> */}
+            </tr>
         )
         return (
-            <span>{sort}</span>
+            <tbody>{sort}</tbody>
         )
     }
 
     return (
         <>
-            <div className="miniList">
-                <div className="miniListItem" onClick={() => setstate(state = "idSt")}>ID</div>
-                <div className="miniListItem" onClick={() => setstate(state = "name")}>ФИО</div>
-                <div className="miniListItem" onClick={() => setstate(state = "group")}>Группа</div>
-                <div className="miniListItem" onClick={() => setstate(state = "ball")}>Ср.балл</div>
-            </div>
+            <table className="stTable" border="1px">
+                <tbody >
+                    <tr>
+                        <td>
+                            Сорт. по:
+                        </td>
+                        <td>
+                            <select value={state} onChange={(event) => setstate(event.target.value)}>
+                                <option value="idSt">ID</option>
+                                <option value="name">ФИО</option>
+                                <option value="group">ГРУППА</option>
+                                <option value="ball">СР.БАЛЛ</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>ФИО</td>
+                        <td>Группа</td>
+                        <td>Ср.балл</td>
+                        <td>Удаление</td>
+                    </tr>
+                </tbody>
 
-            <div className="listItem">
-                <span>ID</span>
-                <span>ФИО</span>
-                <span>Группа</span>
-                <span>Ср.балл</span>
-            </div>
-
-            <Sort state={state} list={list}/>
-
-            <div className=" sec">
-                <input id="idSt" type="number" ref={ID} name="id" onChange={(w) => change(w)} placeholder="id" />
-                <input id="name" type="text" ref={NAME} name="name" onChange={(w) => change(w)} placeholder="name" />
-                <input id="group" type="text" ref={GROUP} name="group" onChange={(w) => change(w)} placeholder="group" />
-                <input id="ball" type="number" ref={BALL} name="ball" onChange={(w) => change(w)} placeholder="ball" />
-                <button onClick={() => add()}>x</button>
-            </div>
-
+                <Sort state={state} list={list} />
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input id="idSt" type="number" ref={ID} name="id" onChange={(w) => change(w)} placeholder="id" />
+                        </td>
+                        <td>
+                            <input id="name" type="text" ref={NAME} name="name" onChange={(w) => change(w)} placeholder="name" />
+                        </td>
+                        <td>
+                            <input id="group" type="text" ref={GROUP} name="group" onChange={(w) => change(w)} placeholder="group" />
+                        </td>
+                        <td>
+                            <input id="ball" type="number" ref={BALL} name="ball" onChange={(w) => change(w)} placeholder="ball" />
+                        </td>
+                        <td>
+                            <button onClick={() => add()}>x</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </>
     )
 }
