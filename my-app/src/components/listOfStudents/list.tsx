@@ -1,18 +1,20 @@
 import React, { useState, useRef, FC } from "react";
 import "../listOfStudents/list.css"
 
-interface Types{
-    state:string
+interface Types {
+    state: string,
+    list:[{id:string, name:string,group:string,ball:string }],
+    
 }
 
 
 export default function ListOfStudents() {
     let [state, setstate] = useState("id")
     let [list, setlist]: any = useState([
-        { id: 5, name: 'asd', group: "ист1", ball: 4 },
-        { id: 8, name: 'asvfd', group: "ист2", ball: 5 },
-        { id: 1, name: 'ымdfsd', group: "ист3", ball: 2 },
-        { id: 4, name: 'askukd', group: "ист4", ball: 1 },
+        { id: 1, name: 'Гуляев Антон', group: "ист3", ball: 4 },
+        { id: 3, name: 'Колыван', group: "ист2", ball: 5 },
+        { id: 2, name: 'Максим Родин', group: "ист3", ball: 3 },
+        { id: 4, name: 'Градиленко Артем', group: "аниме", ball: 2 },
     ])
     let [input, setvalue] = useState({ id: '', name: '', group: '', ball: '' })
     const ID = useRef(null);
@@ -70,14 +72,16 @@ export default function ListOfStudents() {
         removeValue()
     }
 
-    function Del(i) {
-        list.splice(list.indexOf(list.find(el => el.id == i.target.id)), 1)
+    const Del = (item) => {
+
+        list.splice(list.indexOf(list.find(el => el.id == item.target.id)), 1)
         setstate(state + 1)
+
         console.log(list)
-        console.log(i)
+        console.log(item)
     }
 
-    const Sort:FC<Types>=({state})=> {
+    const Sort: FC<Types> = ({ state, list }) => {
         function sortirovka(a, b) {
             if (a[state] < b[state]) { return -1; }
             if (a[state] > b[state]) { return 1; }
@@ -113,7 +117,7 @@ export default function ListOfStudents() {
                 <span>Ср.балл</span>
             </div>
 
-            <Sort state={state}/>
+            <Sort state={state} list={list}/>
 
             <div className=" sec">
                 <input id="id" type="number" ref={ID} name="id" onChange={(w) => change(w)} placeholder="id" />
