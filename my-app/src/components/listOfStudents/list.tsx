@@ -3,7 +3,7 @@ import "../listOfStudents/list.css"
 
 export default function ListOfStudents() {
     let [state, setstate] = useState("id")
-    let [list, setlist] = useState([
+    let [list, setlist]:any = useState([
         { id: 5, name: 'asd', group: "ист1", ball: 4 },
         { id: 8, name: 'asvfd', group: "ист2", ball: 5 },
         { id: 1, name: 'ымdfsd', group: "ист3", ball: 2 },
@@ -74,10 +74,10 @@ export default function ListOfStudents() {
     }
 
     function Del(i) {
-        list.splice(list.indexOf(list.find(el => el.id == i)), 1)
+        list.splice(list.indexOf(list.find(el => el.id == i.target.id)), 1)
         setstate(state + 1)
         console.log(list)
-        // console.log(i)
+        console.log(i)
     }
 
     function Sort() {
@@ -96,7 +96,7 @@ export default function ListOfStudents() {
                 <span>{item.name}</span>
                 <span>{item.group}</span>
                 <span>{item.ball}</span>
-                <div id={item.id} className="del" onClick={(item) => Del(item.target.id)} />
+                <div id={item.id} className="del" onClick={(item) => Del(item)} />
                 {/* <div id={item.id} className="del" onClick={(item) => Del(item)} /> */}
 
             </div>

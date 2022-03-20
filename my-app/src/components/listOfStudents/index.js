@@ -1,2 +1,2 @@
-import ListOfStudents from "./list";
+import ListOfStudents from "./list.tsx";
 export default ListOfStudents;
