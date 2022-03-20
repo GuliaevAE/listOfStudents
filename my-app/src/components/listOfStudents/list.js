@@ -74,10 +74,10 @@ export default function ListOfStudents() {
     }
 
     function Del(i) {
-        // list.splice(list.indexOf(list.find(el => el.id == i)), 1)
-        // setstate(state + 1)
-        // console.log(list)
-        console.log(i)
+        list.splice(list.indexOf(list.find(el => el.id == i)), 1)
+        setstate(state + 1)
+        console.log(list)
+        // console.log(i)
     }
 
     function Sort() {
@@ -96,8 +96,8 @@ export default function ListOfStudents() {
                 <span>{item.name}</span>
                 <span>{item.group}</span>
                 <span>{item.ball}</span>
-                {/* <div id={item.id} className="del" onClick={(item) => Del(item.target.id)} /> */}
-                <div id={item.id} className="del" onClick={(item) => Del(item)} />
+                <div id={item.id} className="del" onClick={(item) => Del(item.target.id)} />
+                {/* <div id={item.id} className="del" onClick={(item) => Del(item)} /> */}
 
             </div>
 
